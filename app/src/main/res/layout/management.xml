@@ -21,6 +21,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/Bbackbutton"
+        android:onClick="onBackButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Calendar display"
         android:id="@+id/BMcalendar"
         android:layout_gravity="right"

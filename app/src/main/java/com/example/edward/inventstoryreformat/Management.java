@@ -39,5 +39,15 @@ public class Management extends Activity {
         }
     }
 
+    public void onBackButtonClick(View v)
+    {
+        if(v.getId() == R.id.Bbackbutton)
+        {
+            Intent i = new Intent(Management.this, display.class);
+            startActivity(i);
+        }
+
+    }
+
 
 }

@@ -57,10 +57,8 @@ public class Organization extends Activity{
         }
     }
 
-    //long press on a item, pop up comes up with 4 choice.
+    //long press on a item, pop up co0mes up with 4 choice.
     //view, edit, delete, share
-
-
 //'orginst'.
 //'Submit' for organization. Connect and store in the database.
 //Further for organization, create a table to display charts.
