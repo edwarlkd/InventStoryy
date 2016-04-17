@@ -48,6 +48,15 @@ public class Organization extends Activity{
         //if one item selected->view, delete, or share.
     }
 
+    public void onShowlistButton(View v)
+    {
+        if(v.getId() == R.id.BShowlistorg)
+        {
+            Intent i = new Intent(Organization.this, Organlist.class);
+            startActivity(i);
+        }
+    }
+
     //long press on a item, pop up comes up with 4 choice.
     //view, edit, delete, share
 
