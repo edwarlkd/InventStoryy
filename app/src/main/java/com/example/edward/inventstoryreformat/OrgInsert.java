@@ -25,7 +25,7 @@ public class OrgInsert extends Activity {
     Parameter View v is needed to check the display.
     Once this button is pressed, it will send the data to the database.
      */
-    public void onSubmitButton(View v){
+    public void onClickOrgSubmitButton(View v){
 
         if(v.getId()==R.id.BSubmitButton){
             //we read data from signup
@@ -47,11 +47,18 @@ public class OrgInsert extends Activity {
             inv.setQuantity(quantitystr);
             inv.setDescription(descriptionstr);
 
+            /*
+//java.lang.IllegalStateException: Could not execute method for android:onClick
+//
+//at com.example.edward.inventstoryreformat.OrgInsert.onSubmitButton(OrgInsert.java:51)
+    = i think :51 is 'helper.insertOrganization(inv);
+             */
+
             //this one needs to be enforced.
             helper.insertOrganization(inv);
 
             //popup message.
-            Toast pass = Toast.makeText(OrgInsert.this, "Successfully created.", Toast.LENGTH_SHORT);
+            Toast pass = Toast.makeText(OrgInsert.this, "Successfully created.", Toast.LENGTH_LONG);
             pass.show();
 
             //'starting new activity.' To start, we need to make object of Intent class

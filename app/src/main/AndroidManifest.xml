@@ -19,6 +19,8 @@
         <activity android:name=".SignUp"></activity>
         <activity android:name=".Management"></activity>
         <activity android:name=".ManagInsert"></activity>
+        <activity android:name=".Managlist"></activity>
+
         <activity android:name=".Organization"></activity>
         <activity android:name=".OrgInsert"></activity>
         <activity android:name=".Organlist"></activity>

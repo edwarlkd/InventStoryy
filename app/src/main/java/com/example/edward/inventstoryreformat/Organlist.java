@@ -17,6 +17,15 @@ package com.example.edward.inventstoryreformat;
  */
 public class Organlist extends Activity {
 
+
+    /*
+    what needs to be done.
+    -retrieve data of 'organization (item name, price...)'
+    -store them in an array or something, or loop for each.
+    -display them using 'ListView' and 'ListAdapter'
+     */
+
+
     private ListView mListView1, mListView2;
 
     private String [] data1 ={"Apple", "Orange", "Banana", "Pineapple", "Watermelon", "Kiwi"};
