@@ -56,6 +56,7 @@ public class OrgInsert extends Activity {
 
             //this one needs to be enforced.
             helper.insertOrganization(inv);
+            helper.close();
 
             //popup message.
             Toast pass = Toast.makeText(OrgInsert.this, "Successfully created.", Toast.LENGTH_LONG);

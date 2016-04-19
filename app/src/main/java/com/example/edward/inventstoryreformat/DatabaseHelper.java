@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * Created by Edward on 4/4/2016.
@@ -22,26 +23,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //inventory
     private static final String TABLE_ORGANIZATIONS = "organizations";
-    private static final String COLUMN_ORGANIZATION_ITEMID = "itemid";
-    private static final String COLUMN_ORGANIZATION_ITEMNAME = "itemname";
-    private static final String COLUMN_ORGANIZATION_PRICE = "price";
-    private static final String COLUMN_ORGANIZATION_QUANTITY = "quantity";
-    private static final String COLUMN_ORGANIZATION_DESCRIPTION = "description";
+    private static final String COLUMN_ORGANIZATIONS_ITEMID = "itemid";
+    private static final String COLUMN_ORGANIZATIONS_ITEMNAME = "itemname";
+    private static final String COLUMN_ORGANIZATIONS_PRICE = "price";
+    private static final String COLUMN_ORGANIZATIONS_QUANTITY = "quantity";
+    private static final String COLUMN_ORGANIZATIONS_DESCRIPTION = "description";
 
     //management
     private static final String TABLE_MANAGEMENTS = "managements";
-    private static final String COLUMN_MANAGEMENT_EVENTID = "eventid";
-    private static final String COLUMN_MANAGEMENT_EVENTNAME = "eventname";
-    private static final String COLUMN_MANAGEMENT_EVENTDATE = "eventdate";
+    private static final String COLUMN_MANAGEMENTS_EVENTID = "eventid";
+    private static final String COLUMN_MANAGEMENTS_EVENTNAME = "eventname";
+    private static final String COLUMN_MANAGEMENTS_EVENTDATE = "eventdate";
 
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "inventstory.db";
 
-    //decare database variable
+    //delcare database variable
     SQLiteDatabase db;
 
     //create a table for to hold values.
+    //Note: NOT NULL constraint enforces a column to NOT accept NULL values.
     private static final String TABLE_CREATE_CONTACTS = "create table " + TABLE_CONTACTS + "("
             + COLUMN_ID + " integer primary key, "
             + COLUMN_NAME + " text not null , "
@@ -52,17 +54,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //create a table for to hold values.
     private static final String TABLE_CREATE_ORGANIZATIONS = "create table " + TABLE_ORGANIZATIONS + "("
-            + COLUMN_ORGANIZATION_ITEMID + " integer primary key autoincrement, "
-            + COLUMN_ORGANIZATION_ITEMNAME + " text not null , "
-            + COLUMN_ORGANIZATION_PRICE + " text not null , "
-            + COLUMN_ORGANIZATION_QUANTITY + " text not null , "
-            + COLUMN_ORGANIZATION_DESCRIPTION + " text not null " + ");";
+            + COLUMN_ORGANIZATIONS_ITEMID + " integer primary key AUTOINCREMENT, "
+            + COLUMN_ORGANIZATIONS_ITEMNAME + " text not null, "
+            + COLUMN_ORGANIZATIONS_PRICE + " text not null, "
+            + COLUMN_ORGANIZATIONS_QUANTITY + " text not null, "
+            + COLUMN_ORGANIZATIONS_DESCRIPTION + " text " + ");";
 
     //create a table for to hold values.
-    private static final String TABLE_CREATE_MANAGEMENTS = " create table " + TABLE_MANAGEMENTS + "("
-            + COLUMN_MANAGEMENT_EVENTID + " integer primary key autoincrement, "
-            + COLUMN_MANAGEMENT_EVENTNAME + " text not null , "
-            + COLUMN_MANAGEMENT_EVENTDATE + " text not null " + ");";
+    private static final String TABLE_CREATE_MANAGEMENTS = "create table " + TABLE_MANAGEMENTS + "("
+            + COLUMN_MANAGEMENTS_EVENTID + " integer primary key AUTOINCREMENT, "
+            + COLUMN_MANAGEMENTS_EVENTNAME + " text , "
+            + COLUMN_MANAGEMENTS_EVENTDATE + " text " + ");";
 
     //constructor
     public DatabaseHelper(Context context)
@@ -104,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Called in 'OrgInsert' class to submit data into the database.
      */
-    public void insertOrganization(inventoryorg c){
+    public void insertOrganization(inventoryorg inv){
 
         // '*' means everything
         // fetch the data
@@ -125,15 +127,18 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
         ContentValues values = new ContentValues();
 
         //String query = " select * from organizations ";
-       // Cursor cursor = db.rawQuery(query, null);
+       // Cursor cursor = db.rawQuery(query, null);5.
       //  int count = cursor.getCount(); //returns number of rows in the cursor
      //   values.put(COLUMN_ORGANIZATION_ITEMID, count); // should this be changed to 'c.getItemid()'
-        values.put(COLUMN_ORGANIZATION_ITEMNAME, c.getItemname());
-        values.put(COLUMN_ORGANIZATION_PRICE, c.getPrice());
-        values.put(COLUMN_ORGANIZATION_QUANTITY, c.getQuantity());
-        values.put(COLUMN_ORGANIZATION_DESCRIPTION, c.getDescription());
+
+        values.put(COLUMN_ORGANIZATIONS_ITEMNAME, inv.getItemname());
+        values.put(COLUMN_ORGANIZATIONS_PRICE, inv.getPrice());
+        values.put(COLUMN_ORGANIZATIONS_QUANTITY, inv.getQuantity());
+        values.put(COLUMN_ORGANIZATIONS_DESCRIPTION, inv.getDescription());
+
 
         db.insert(TABLE_ORGANIZATIONS, null, values);
+        db.close();
 
     }
 
@@ -146,13 +151,12 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
 
         // '*' means everything
         // fetch the data
-        String query = " select * from managements ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount(); //what does this do
-
-        values.put(COLUMN_MANAGEMENT_EVENTID, count);
-        values.put(COLUMN_MANAGEMENT_EVENTNAME, c.getEventname());
-        values.put(COLUMN_MANAGEMENT_EVENTDATE, c.getEventdate());
+        //String query = " select * from managements ";
+        //Cursor cursor = db.rawQuery(query, null);
+        //int count = cursor.getCount(); //what does this do
+        //values.put(COLUMN_MANAGEMENT_EVENTID, count);
+        values.put(COLUMN_MANAGEMENTS_EVENTNAME, c.getEventname());
+        values.put(COLUMN_MANAGEMENTS_EVENTDATE, c.getEventdate());
 
         db.insert(TABLE_MANAGEMENTS, null, values);
 
@@ -190,21 +194,24 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     @Override
     public void onCreate(SQLiteDatabase db) {
  //change
-        db.execSQL(TABLE_CREATE_CONTACTS);
-        db.execSQL(TABLE_CREATE_ORGANIZATIONS);
-        db.execSQL(TABLE_CREATE_MANAGEMENTS);
-        //db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
+        //db.execSQL(TABLE_CREATE_CONTACTS);
+        //db.execSQL(TABLE_CREATE_ORGANIZATIONS);
+        //db.execSQL(TABLE_CREATE_MANAGEMENTS);
+        db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
         this.db = db;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS);
- //       db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS
-   //             + " DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS
-     //           + " DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS); //doesn't work.
+
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS
+                + " DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS
+                + " DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS); //doesn't work.
+
+        //re-create the table
         this.onCreate(db);
 
     }

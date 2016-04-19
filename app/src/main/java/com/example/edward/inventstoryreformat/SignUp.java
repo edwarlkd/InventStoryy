@@ -63,6 +63,8 @@ public class SignUp extends Activity {
                 c.setPass(pass1str);
 
                 helper.insertContact(c);
+                helper.close();
+
                 //popup message.
                 Toast pass = Toast.makeText(SignUp.this, "Successful! Now, Log In", Toast.LENGTH_SHORT);
                 pass.show();
