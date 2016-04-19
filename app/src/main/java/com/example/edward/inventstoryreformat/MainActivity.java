@@ -26,37 +26,42 @@ public class MainActivity extends AppCompatActivity {
 
     //If the input values are correct, it will take users to next display menu.
      */
-    public void onButtonClick(View v)
-    {
+    public void onButtonClick(View v) {
         //now check if Blogin button is pressed or not.
-        if(v.getId()==R.id.Blogin)
-        {
-            EditText a = (EditText)findViewById(R.id.TFusername); //what's in textfield
+        if (v.getId() == R.id.Blogin) {
+            EditText a = (EditText) findViewById(R.id.TFusername); //what's in textfield
             String str = a.getText().toString();
-            EditText b = (EditText)findViewById(R.id.TFpassword);
+            EditText b = (EditText) findViewById(R.id.TFpassword);
             String pass = b.getText().toString();
 
             //check if username and password match.
             String password = helper.searchPass(str);
-            if(pass.equals(password))
-            {
+            if (pass.equals(password)) {
                 //starting new activity. To start, we need to make object of Intent class
                 Intent i = new Intent(MainActivity.this, display.class);
                 i.putExtra("Username", str);
                 startActivity(i);
-            }
-            else // show toast message that credential doesn't match.
+            } else // show toast message that credential doesn't match.
             {
                 Toast temp = Toast.makeText(MainActivity.this, "Username and password don't match", Toast.LENGTH_SHORT);
                 temp.show();
             }
 
         }
-        if(v.getId() == R.id.Bsignup)
-        {
+        if (v.getId() == R.id.Bsignup) {
             Intent i = new Intent(MainActivity.this, SignUp.class);
             startActivity(i);
 
         }
     }
+
+
+    public void onOrganButton2(View v) {
+
+        if (v.getId() == R.id.BAddInven2) {
+            Intent i = new Intent(MainActivity.this, Organization.class);
+            startActivity(i);
+        }
+    }
+
 }

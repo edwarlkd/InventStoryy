@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.widget.Toast;
 
 /**
@@ -99,14 +100,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         //insert the data in 'values' to the specified table.
         db.insert(TABLE_CONTACTS, null, values);
-
+        db.close();
     }
 
     /*
 
     //Called in 'OrgInsert' class to submit data into the database.
      */
-    public void insertOrganization(inventoryorg inv){
+    public boolean insertOrganization(inventoryorg inv){
 
         // '*' means everything
         // fetch the data
@@ -126,19 +127,33 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
         //create content values
         ContentValues values = new ContentValues();
 
-        //String query = " select * from organizations ";
-       // Cursor cursor = db.rawQuery(query, null);5.
-      //  int count = cursor.getCount(); //returns number of rows in the cursor
-     //   values.put(COLUMN_ORGANIZATION_ITEMID, count); // should this be changed to 'c.getItemid()'
+        String query = " select * from organizations ";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount(); //returns number of rows in the cursor
+        values.put(COLUMN_ORGANIZATIONS_ITEMID, count); // should this be changed to 'c.getItemid()'
 
         values.put(COLUMN_ORGANIZATIONS_ITEMNAME, inv.getItemname());
         values.put(COLUMN_ORGANIZATIONS_PRICE, inv.getPrice());
         values.put(COLUMN_ORGANIZATIONS_QUANTITY, inv.getQuantity());
         values.put(COLUMN_ORGANIZATIONS_DESCRIPTION, inv.getDescription());
 
-
+        long inserted = 0;
+        inserted=db.insert(TABLE_ORGANIZATIONS, null, values);
         db.insert(TABLE_ORGANIZATIONS, null, values);
-        db.close();
+        //db.close();
+
+        if(inserted >0) {
+            //popup message.
+            //Toast pass = Toast.makeText(DatabaseHelper.this, "insertOrg() worked", Toast.LENGTH_SHORT);
+            //pass.show();
+            db.close();
+            return false;
+        }
+        else
+        {
+            db.close();
+            return true;
+        }
 
     }
 
@@ -159,6 +174,10 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
         values.put(COLUMN_MANAGEMENTS_EVENTDATE, c.getEventdate());
 
         db.insert(TABLE_MANAGEMENTS, null, values);
+
+
+        db.close();
+
 
     }
 
@@ -187,7 +206,7 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
             }
             while(cursor.moveToNext());
         }
-
+        db.close();
         return b;
     }
 
@@ -195,9 +214,9 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     public void onCreate(SQLiteDatabase db) {
  //change
         //db.execSQL(TABLE_CREATE_CONTACTS);
-        //db.execSQL(TABLE_CREATE_ORGANIZATIONS);
+        db.execSQL(TABLE_CREATE_ORGANIZATIONS);
         //db.execSQL(TABLE_CREATE_MANAGEMENTS);
-        db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
+       // db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
         this.db = db;
     }
 
@@ -205,11 +224,11 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS);
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS
-                + " DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS
-                + " DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS); //doesn't work.
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS
+                //+ " DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS
+                //+ " DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS); //doesn't work.
 
         //re-create the table
         this.onCreate(db);

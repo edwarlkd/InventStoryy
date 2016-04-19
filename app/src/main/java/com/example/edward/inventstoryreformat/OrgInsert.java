@@ -55,7 +55,25 @@ public class OrgInsert extends Activity {
              */
 
             //this one needs to be enforced.
-            helper.insertOrganization(inv);
+            boolean doesitwork=helper.insertOrganization(inv);
+
+            if(doesitwork)
+            {
+
+                //popup message.
+                Toast pass = Toast.makeText(OrgInsert.this, "insertOrg() worked", Toast.LENGTH_LONG);
+                pass.show();
+
+            }
+            else
+            {
+
+                //popup message.
+                Toast pass = Toast.makeText(OrgInsert.this, "inseretOrg() not worked.", Toast.LENGTH_LONG);
+                pass.show();
+
+            }
+
             helper.close();
 
             //popup message.
