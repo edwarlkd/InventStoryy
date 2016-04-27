@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         // '*' means everything
         // fetch the data
-        String query = "select * from 'contacts' ";
+        String query = "select * from contacts ";
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount(); //returns number of rows in the cursor
 
@@ -166,10 +166,10 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
 
         // '*' means everything
         // fetch the data
-        //String query = " select * from managements ";
-        //Cursor cursor = db.rawQuery(query, null);
-        //int count = cursor.getCount(); //what does this do
-        //values.put(COLUMN_MANAGEMENT_EVENTID, count);
+        String query = " select * from managements ";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount(); //what does this do
+        values.put(COLUMN_MANAGEMENTS_EVENTID, count);
         values.put(COLUMN_MANAGEMENTS_EVENTNAME, c.getEventname());
         values.put(COLUMN_MANAGEMENTS_EVENTDATE, c.getEventdate());
 
@@ -213,9 +213,9 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     @Override
     public void onCreate(SQLiteDatabase db) {
  //change
-        //db.execSQL(TABLE_CREATE_CONTACTS);
+        db.execSQL(TABLE_CREATE_CONTACTS);
         db.execSQL(TABLE_CREATE_ORGANIZATIONS);
-        //db.execSQL(TABLE_CREATE_MANAGEMENTS);
+        db.execSQL(TABLE_CREATE_MANAGEMENTS);
        // db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
         this.db = db;
     }
@@ -223,9 +223,9 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS);
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS
                 //+ " DROP TABLE IF EXISTS " + TABLE_ORGANIZATIONS
                 //+ " DROP TABLE IF EXISTS " + TABLE_MANAGEMENTS); //doesn't work.
