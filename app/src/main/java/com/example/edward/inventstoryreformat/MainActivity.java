@@ -8,9 +8,17 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper helper = new DatabaseHelper(this);
+
+    //calendar
+    private RobotoCalendarView robotoCalendarView;
+    private int currentMonthIndex;
+    private Calendar currentCalendar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

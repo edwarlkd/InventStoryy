@@ -127,10 +127,10 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
         //create content values
         ContentValues values = new ContentValues();
 
-        String query = " select * from organizations ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount(); //returns number of rows in the cursor
-        values.put(COLUMN_ORGANIZATIONS_ITEMID, count); // should this be changed to 'c.getItemid()'
+    //    String query = " select * from organizations ";
+  //      Cursor cursor = db.rawQuery(query, null);
+    //    int count = cursor.getCount(); //returns number of rows in the cursor
+    //    values.put(COLUMN_ORGANIZATIONS_ITEMID, count); // should this be changed to 'c.getItemid()'
 
         values.put(COLUMN_ORGANIZATIONS_ITEMNAME, inv.getItemname());
         values.put(COLUMN_ORGANIZATIONS_PRICE, inv.getPrice());
@@ -166,13 +166,13 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
 
         // '*' means everything
         // fetch the data
-        String query = " select * from managements ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount(); //what does this do
-        values.put(COLUMN_MANAGEMENTS_EVENTID, count);
+//        String query = " select * from managements ";
+  //      Cursor cursor = db.rawQuery(query, null);
+    //    int count = cursor.getCount(); //what does this do
+      //  values.put(COLUMN_MANAGEMENTS_EVENTID, count);
+
         values.put(COLUMN_MANAGEMENTS_EVENTNAME, c.getEventname());
         values.put(COLUMN_MANAGEMENTS_EVENTDATE, c.getEventdate());
-
         db.insert(TABLE_MANAGEMENTS, null, values);
 
 
@@ -213,11 +213,11 @@ Caused by: android.database.sqlite.SQLiteException: no such table: organizations
     @Override
     public void onCreate(SQLiteDatabase db) {
  //change
-        db.execSQL(TABLE_CREATE_CONTACTS);
-        db.execSQL(TABLE_CREATE_ORGANIZATIONS);
-        db.execSQL(TABLE_CREATE_MANAGEMENTS);
-       // db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
-        this.db = db;
+ //       db.execSQL(TABLE_CREATE_CONTACTS);
+   //     db.execSQL(TABLE_CREATE_ORGANIZATIONS);
+     //   db.execSQL(TABLE_CREATE_MANAGEMENTS);
+       db.execSQL(TABLE_CREATE_CONTACTS+TABLE_CREATE_ORGANIZATIONS+TABLE_CREATE_MANAGEMENTS);
+       //this.db = db;
     }
 
     @Override
